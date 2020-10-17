@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex">
+        <div class="d-inline p-2 w-50">
+            <img src="{{ pet.image_url }}" class="w-50 rounded mx-auto d-block">
+        </div>
+        <div class="d-inline p-2 w-50">
+            <div class="d-flex justify-content-between">
+                <h5><u>Type:</u> {{ pet.type_pet }}</h5>
+                <h5><u>Name:</u> {{ pet.name }}</h5>
+                <h5><u>Age:</u> {{ pet.age }}</h5>
+            </div>
+            <p class="mt-2">Description: {{ pet.description }}</p>
+            <a href="{% url 'like' pet.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+            <p class="mt-2">Likes: {{ number }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
