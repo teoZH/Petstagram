@@ -7,14 +7,28 @@
         </div>
         <div class="d-inline p-2 w-50">
             <div class="d-flex justify-content-between">
-                <h5><u>Type:</u> {{ pet.type_pet }}</h5>
+                <h5><u>Type:</u> {{ pet.type }}</h5>
                 <h5><u>Name:</u> {{ pet.name }}</h5>
                 <h5><u>Age:</u> {{ pet.age }}</h5>
             </div>
             <p class="mt-2">Description: {{ pet.description }}</p>
             <a href="{% url 'like' pet.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
             <p class="mt-2">Likes: {{ number }}</p>
+            <a href="{% url 'edit' pet.id %}" class="btn btn-success">Edit</a>
+            <a href="{% url 'delete' pet.id %}" class="btn btn-danger">Delete</a>
         </div>
     </div>
+    <div class="d-block" style="background-color: #f1e3e3; padding:2%"> if comments for each comment
+                <div class="box"> <h5><em>comment_content</em></h5> <hr> </div>
+                else <div class="box"> <h3>There are no comments for this pet. </h3> </div>
+                endif
+                <div class="box">
+                    <form method="post">
+                        comment_form
+                        <button class="btn btn-primary mt-2" type="submit">Add comment</button>
+                    </form>
+                </div>
+            </div>
 </div>
+
 {% endblock %}

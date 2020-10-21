@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Pet(models.Model):
-    type_pet = models.CharField(max_length=6)
+    type = models.CharField(max_length=6)
     name = models.CharField(max_length=6)
     age = models.PositiveIntegerField()
     description = models.TextField()
