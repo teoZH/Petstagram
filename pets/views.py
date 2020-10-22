@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from pets.models import Pet, Like
 from django.core.exceptions import ObjectDoesNotExist
 from pets.forms import CreatePetForm
+from common.forms import CommentForm
+from common.models import Comment
+from django.views.decorators.http import require_POST
 
 
 def home(request):
@@ -18,14 +21,18 @@ def pet_all(request):
 
 
 def pet_detail(request, pk):
+    comment_form = CommentForm()
     try:
         pet = Pet.objects.get(pk=pk)
         number = pet.like_set.count()
+        comments = pet.comment_set.all()
     except ObjectDoesNotExist:
         return redirect('pet_all')
     context = {
         'pet': pet,
-        'number': number
+        'number': number,
+        'form': comment_form,
+        'comments': comments
     }
     return render(request, 'pets/pet_detail.html', context)
 
@@ -86,4 +93,22 @@ def delete(request, pk):
     context = {
         'pet': pet
     }
-    return render(request, 'pets/pet_delete.html',context)
+    return render(request, 'pets/pet_delete.html', context)
+
+
+def update_comment_section(request, pk):
+    if request.method == 'GET':
+        return redirect('pet_detail', pk)
+
+    try:
+        pet = Pet.objects.get(pk=pk)
+    except ObjectDoesNotExist:
+        return redirect('pet_detail', pk)
+
+    comment = Comment(pet=pet)
+    form = CommentForm(request.POST, instance=comment)
+    if form.is_valid():
+        form.save()
+        return redirect('pet_detail',pk)
+
+    return HttpResponse('some ERROR')

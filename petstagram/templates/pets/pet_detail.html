@@ -18,17 +18,22 @@
             <a href="{% url 'delete' pet.id %}" class="btn btn-danger">Delete</a>
         </div>
     </div>
-    <div class="d-block" style="background-color: #f1e3e3; padding:2%"> if comments for each comment
-                <div class="box"> <h5><em>comment_content</em></h5> <hr> </div>
-                else <div class="box"> <h3>There are no comments for this pet. </h3> </div>
-                endif
-                <div class="box">
-                    <form method="post">
-                        comment_form
-                        <button class="btn btn-primary mt-2" type="submit">Add comment</button>
-                    </form>
-                </div>
-            </div>
+    <div class="d-block" style="background-color: #f1e3e3; padding:2%">
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="box"> <h5><em>{{ comment.comment }}</em></h5> <hr> </div>
+            {% endfor %}
+        {% else %}
+            <div class="box"> <h3>There are no comments for this pet. </h3> </div>
+        {% endif %}
+        <div class="box">
+            <form method="post" action="{% url 'update_comment' pet.id %}" >
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-primary mt-2" type="submit">Add comment</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
